@@ -15,7 +15,8 @@ class Connect4Env(gym.Env):
     NUM_COLS = 7
     NUM2WIN = 4
     def __init__(self): # initialize
-        self.board = np.zeros((self.NUM_ROWS, self.NUM_COLS)) # define board with number of rows and columns
+        # define board with number of rows and columns
+        self.board = np.zeros((self.NUM_ROWS, self.NUM_COLS)) 
         self.ulima = rand.choice([1, -1]) #randomise if ulima is 1 or -1
 
         now = datetime.now()
@@ -50,7 +51,10 @@ class Connect4Env(gym.Env):
         winner = self.get_winner()
         self.reward = 0
         self.done = False
-        
+       
+        if moves == 0:
+            print('DRAW')
+            self.done = True
         if winner:
             self.done = True
             if player == self.ulima:
