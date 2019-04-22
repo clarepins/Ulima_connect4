@@ -17,7 +17,7 @@ ENV.reset()
 MAX_STEPS = 21 # half of 7 x 6 board
 # This is the score that means Ulima has done well.
 # Could do it as a proportion of wins..?
-INITIAL_GAMES = 100
+INITIAL_GAMES = 1
 SCORE_REQUIREMENT = 1
 RAND = random.Random()
 
@@ -25,11 +25,10 @@ class Ulima():
 
     def model_data_preparation(self):
         # for each play we want to store the state of the board and the move
-        self.training_data = []
-        self.accepted_scores = []
+        training_data = []
+        accepted_scores = []
         for _ in range(INITIAL_GAMES): # start by playing 10,000 games
             score = 0
-            self.previous_observation = []
 
             for _ in range(MAX_STEPS):
                 # action = ENV.action_space.sample() # can we change this to .get_avail_moves
@@ -41,16 +40,16 @@ class Ulima():
                 hot_action.insert(action, 1)
 
                 copy_observation = copy.deepcopy(observation)
-                self.training_data += [copy_observation, hot_action]
-
+                training_data += [copy_observation, hot_action]
                 score += reward
+                accepted_scores.append(score)
                 if done:
                     break
 
             ENV.reset()
 
-        print(self.accepted_scores)
-        # return self.training_data
+        print(accepted_scores)
+        return training_data
 
 
     # def build_model(input_size, output_size):
