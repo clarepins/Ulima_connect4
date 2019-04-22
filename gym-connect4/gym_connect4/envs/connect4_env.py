@@ -3,6 +3,7 @@ import random # import random class
 import copy
 import gym
 import math
+from datetime import datetime
 from gym import spaces, error, utils
 from gym.utils import seeding
 
@@ -17,6 +18,10 @@ class Connect4Env(gym.Env):
         self.board = np.zeros((self.NUM_ROWS, self.NUM_COLS)) # define board with number of rows and columns
         self.ulima = rand.choice([1, -1]) #randomise if ulima is 1 or -1
 
+        now = datetime.now()
+        data_set_file_name = "./Saved_games/data_set_" + str(now.strftime("%Y-%m-%d_%H:%M:%S")) + ".npy"
+        self.data_set_file = open(data_set_file_name,"w+")
+
     def step(self, move):
         # if move not in self.get_avail_moves():
         #     self.done = True
@@ -24,6 +29,7 @@ class Connect4Env(gym.Env):
         self.last_board = copy.deepcopy(self.board)
 
         self.player_make_move(1, move) # player 1 always goes first. Player 1 is randomised between ulima and computer.
+        # np.savetxt(self.data_set_file, self.board, fmt='%1.1i',delimiter="," )import numpy as np  # For 2D array
         if self.done == False:
             self.player_make_move(-1, move)
         return self.board, self.reward, self.done, {}
@@ -44,6 +50,7 @@ class Connect4Env(gym.Env):
         winner = self.get_winner()
         self.reward = 0
         self.done = False
+        
         if winner:
             self.done = True
             if player == self.ulima:
