@@ -2,7 +2,7 @@ import numpy as np  # For 2D array
 import random # import random class
 import copy
 import gym
-import math
+# import math
 from datetime import datetime
 from gym import spaces, error, utils
 from gym.utils import seeding
@@ -16,7 +16,7 @@ class Connect4Env(gym.Env):
     NUM2WIN = 4
     def __init__(self): # initialize
         # define board with number of rows and columns
-        self.board = np.zeros((self.NUM_ROWS, self.NUM_COLS)) 
+        self.board = np.zeros((self.NUM_ROWS, self.NUM_COLS))
         self.ulima = rand.choice([1, -1]) #randomise if ulima is 1 or -1
 
         now = datetime.now()
@@ -82,16 +82,24 @@ class Connect4Env(gym.Env):
 
         self.board[j][move] = player # puts -1 or 1 in the empty cell
 
-    def get_winner(self): # check every 4x4 subboard
-        for i in range(self.NUM_ROWS-self.NUM2WIN+1): #(6-4) + 1) suboard of 4 upto where start point is num2win away from end of board
+    # check every 4x4 subboard
+    def get_winner(self): 
+        #(6-4) + 1) suboard of 4 upto where start point is num2win away from end of board
+        for i in range(self.NUM_ROWS-self.NUM2WIN+1): 
             for j in range(self.NUM_COLS-self.NUM2WIN+1): #(7-4) + 1
                 subboard = self.board[i:i+self.NUM2WIN, j:j+self.NUM2WIN]
-                if np.max(np.abs(np.sum(subboard, 0))) == self.NUM2WIN: # check the vertical; if the sum of the values in column is abs(4) then win (the sum will never be more
-                    return True                                            # than 4, and if it's less then 4 then it's obviously not a win)
-                if np.max(np.abs(np.sum(subboard, 1))) == self.NUM2WIN: # check the horizontal (same for vertical)
+                # check the vertical; if the sum of the values in column is abs(4) 
+                # then win (the sum will never be more
+                if np.max(np.abs(np.sum(subboard, 0))) == self.NUM2WIN: 
+                    return True 
+                # than 4, and if it's less then 4 then it's obviously not a win)  
+                # # check the horizontal (same for vertical)                                         
+                if np.max(np.abs(np.sum(subboard, 1))) == self.NUM2WIN: 
                     return True
-                elif np.abs(sum([subboard[k, k] for k in range(self.NUM2WIN)])) == self.NUM2WIN: # diaganol
+                elif np.abs(sum([subboard[k, k] for k in range(self.NUM2WIN)])) == self.NUM2WIN:
+                     # diaganol
                     return True
-                elif np.abs(sum([subboard[k, self.NUM2WIN-1-k] for k in range(self.NUM2WIN)])) == self.NUM2WIN: # opp diaganol
+                elif np.abs(sum([subboard[k, self.NUM2WIN-1-k] for k in range(self.NUM2WIN)])) == self.NUM2WIN: 
+                    # opp diaganol
                     return True
         return False
