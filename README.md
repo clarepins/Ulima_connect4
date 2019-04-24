@@ -1,5 +1,5 @@
 # Ulima
-This final project, created by Anuluxmy, Claire, Dora and Kate, is a Machine Learning project written in Python.
+This final project, created by Anuluxmy, Clare, Dora and Kate, is a Machine Learning project written in Python.
 We wanted to use the childrens game Connect 4 to investigate how machine learning could be used to mimic human behaviour.
 
 ## Motivation
